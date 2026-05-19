@@ -1,1 +1,30 @@
-AGENTS.MD
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Local data
+data/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Agent/private workspace instructions
+AGENTS.md
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
