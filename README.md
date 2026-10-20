@@ -40,7 +40,7 @@ O service recebe o caminho do arquivo como parâmetro opcional. É isso que deix
 
 | Método | Rota | O que faz | Sucesso | Erros |
 | --- | --- | --- | --- | --- |
-| `GET` | `/` | Health check e lista de rotas | `200` | |
+| `GET` | `/api` | Health check e lista de rotas | `200` | |
 | `GET` | `/transactions` | Lista todas as transações | `200` | |
 | `GET` | `/transactions/:id` | Busca uma transação | `200` | `404` |
 | `POST` | `/transactions` | Cria uma transação | `201` | `400` |
@@ -120,6 +120,11 @@ npm start          # roda a versão compilada
 
 A API sobe em `http://localhost:3000`. Para trocar a porta, defina a variável `PORT`.
 
+- `http://localhost:3000/`: interface web (TypeScript sem framework, código em `web/src`)
+- `http://localhost:3000/docs/`: documentação interativa (Swagger UI lendo `public/openapi.json`)
+
+Na primeira execução, se `data/transactions.json` não existir, a API copia os dados de exemplo de `seed/transactions.json`.
+
 ## Testes
 
 ```
@@ -148,7 +153,6 @@ Projeto de estudo, com escopo de MVP. O que eu sei que falta:
 - [ ] Testes de integração das rotas com Supertest
 - [ ] Filtros em `GET /transactions` por tipo, categoria e período
 - [ ] Autenticação com JWT e transações por usuário
-- [ ] Documentação OpenAPI / Swagger
 
 ## Autor
 

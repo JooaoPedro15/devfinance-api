@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DevFinance</title>
+    <meta name="description" content="Controle de receitas e despesas. Projeto de portfólio: API REST em Node.js + TypeScript e a interface que a consome.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
+    <script type="module" src="/js/app.js"></script>
+</head>
+<body>
+    <header class="top">
+        <a class="brand" href="/">DevFinance</a>
+        <nav class="top-links" aria-label="Sobre o projeto">
+            <a href="/docs/">Documentação da API</a>
+            <a href="https://github.com/JooaoPedro15/devfinance-api">Código no GitHub</a>
+        </nav>
+    </header>
+
+    <section class="balance" aria-labelledby="balance-label">
+        <svg id="guilloche" class="guilloche" aria-hidden="true"></svg>
+        <div class="balance-inner">
+            <p id="balance-label" class="balance-label">Saldo em conta</p>
+            <p id="balance" class="balance-value">—</p>
+            <dl class="totals">
+                <div>
+                    <dt>Entradas</dt>
+                    <dd id="income" class="income">—</dd>
+                </div>
+                <div>
+                    <dt>Saídas</dt>
+                    <dd id="expense" class="expense">—</dd>
+                </div>
+            </dl>
+        </div>
+    </section>
+
+    <p class="about"><span>
+        Projeto de portfólio de João Pedro Costa e Silva. Esta tela usa uma API REST que eu escrevi
+        em Node.js e TypeScript: tudo que você adiciona, edita ou exclui aqui passa por ela.
+        Fique à vontade para testar. Os dados voltam ao exemplo quando o servidor reinicia.
+    </span></p>
+
+    <main class="layout">
+        <section class="statement" aria-labelledby="statement-title">
+            <div class="statement-head">
+                <h2 id="statement-title">Extrato</h2>
+                <fieldset class="filter">
+                    <legend class="visually-hidden">Mostrar</legend>
+                    <label><input type="radio" name="filter" value="all" checked> Tudo</label>
+                    <label><input type="radio" name="filter" value="income"> Entradas</label>
+                    <label><input type="radio" name="filter" value="expense"> Saídas</label>
+                </fieldset>
+            </div>
+
+            <div class="columns" aria-hidden="true">
+                <span>Data</span>
+                <span>Descrição</span>
+                <span class="num">Valor</span>
+                <span class="num">Saldo</span>
+            </div>
+
+            <ol id="rows" class="rows"></ol>
+
+            <p id="empty" class="empty" hidden>
+                Nenhum lançamento aqui ainda. Use o formulário para registrar o primeiro.
+            </p>
+            <p id="load-error" class="empty" hidden>
+                O servidor não respondeu. Se ele estava dormindo, espere alguns segundos e recarregue a página.
+            </p>
+        </section>
+
+        <aside class="entry" id="entry" aria-labelledby="entry-title">
+            <h2 id="entry-title">Novo lançamento</h2>
+
+            <form id="entry-form" novalidate>
+                <fieldset class="type-switch">
+                    <legend class="visually-hidden">Tipo</legend>
+                    <label class="type-option type-option--expense">
+                        <input type="radio" name="type" value="expense" checked>
+                        <span>Saída</span>
+                    </label>
+                    <label class="type-option type-option--income">
+                        <input type="radio" name="type" value="income">
+                        <span>Entrada</span>
+                    </label>
+                </fieldset>
+
+                <label class="field">
+                    <span>Descrição</span>
+                    <input name="title" autocomplete="off" placeholder="Ex.: Conta de luz">
+                    <small class="field-error" data-error-for="title"></small>
+                </label>
+
+                <label class="field">
+                    <span>Valor (R$)</span>
+                    <input name="amount" type="number" inputmode="decimal" min="0.01" step="0.01" placeholder="0,00">
+                    <small class="field-error" data-error-for="amount"></small>
+                </label>
+
+                <label class="field">
+                    <span>Categoria</span>
+                    <input name="category" list="categories" autocomplete="off" placeholder="Ex.: Moradia">
+                    <datalist id="categories"></datalist>
+                    <small class="field-error" data-error-for="category"></small>
+                </label>
+
+                <div class="form-actions">
+                    <button id="submit" type="submit" class="button">Adicionar lançamento</button>
+                    <button id="cancel-edit" type="button" class="link" hidden>Cancelar edição</button>
+                </div>
+                <p id="status" class="status" role="status" aria-live="polite"></p>
+            </form>
+        </aside>
+    </main>
+
+    <footer class="foot">
+        <p>Feito com Node.js, TypeScript, Express 5 e Zod. A interface é TypeScript puro, sem framework.</p>
+    </footer>
+</body>
+</html>

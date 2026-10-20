@@ -1,3 +1,5 @@
+import path from 'node:path'
+
 import express from 'express'
 import type { NextFunction, Request, Response } from 'express'
 
@@ -9,13 +11,18 @@ import {
     listTransactions,
     updateTransaction,
 } from './controllers/transactions.controller'
+import { ensureSeedData } from './seed'
 
 const app = express ()
 app.use (express.json ())
 
-app.get ('/', (req, res) =>{
+// Front-end (public/index.html) e documentação Swagger (public/docs) servidos como arquivos estáticos
+app.use(express.static(path.resolve(process.cwd(), 'public')))
+
+app.get ('/api', (req, res) =>{
     res.json({
         message: 'DevFinance API rodando!',
+        docs: '/docs',
         routes: [
             'GET /transactions',
             'GET /transactions/:id',
@@ -45,6 +52,8 @@ app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
 
 const port = Number(process.env.PORT) || 3000
 
-app.listen(port, () => {
-    console.log(`Servidor rodando na porta ${port}`)
+ensureSeedData().then(() => {
+    app.listen(port, () => {
+        console.log(`Servidor rodando na porta ${port}`)
+    })
 })
