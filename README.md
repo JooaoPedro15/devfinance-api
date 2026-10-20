@@ -2,6 +2,10 @@
 
 API REST para controle de finanças pessoais: cadastra receitas e despesas, faz CRUD completo das transações e devolve o saldo consolidado em uma rota de resumo.
 
+**Ver funcionando:** [devfinance-szqo.onrender.com](https://devfinance-szqo.onrender.com) · [documentação interativa (Swagger)](https://devfinance-szqo.onrender.com/docs/)
+
+> Hospedado no plano gratuito do Render: se o site estiver parado, o primeiro acesso pode levar até um minuto.
+
 ![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat&logo=nodedotjs&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white)
 ![Express](https://img.shields.io/badge/Express_5-000000?style=flat&logo=express&logoColor=white)
