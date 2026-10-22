@@ -1,0 +1,67 @@
+# Liga o monitor do UptimeRobot só em horário comercial (seg a sex, 8h às 18h de Brasília).
+# Fora desse horário o monitor fica pausado e o Render pode dormir, economizando horas do plano grátis.
+name: Monitor em horário comercial
+
+on:
+  schedule:
+    # O cron do GitHub é em UTC. Brasília é UTC-3, então 7h50 = 10h50 UTC e 18h = 21h UTC.
+    - cron: "50 10 * * 1-5" # acorda o site e retoma o monitor um pouco antes das 8h
+    - cron: "0 21 * * 1-5"  # pausa o monitor às 18h
+  workflow_dispatch:
+    inputs:
+      action:
+        description: "O que fazer com o monitor"
+        type: choice
+        options:
+          - start
+          - pause
+
+env:
+  SITE_URL: https://devfinance-szqo.onrender.com/api
+  MONITOR_ID: "804384649"
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Decidir entre retomar ou pausar
+        id: decide
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "action=${{ inputs.action }}" >> "$GITHUB_OUTPUT"
+          elif [ "${{ github.event.schedule }}" = "50 10 * * 1-5" ]; then
+            echo "action=start" >> "$GITHUB_OUTPUT"
+          else
+            echo "action=pause" >> "$GITHUB_OUTPUT"
+          fi
+
+      # O site está dormindo de manhã. Se o monitor voltasse direto, a primeira verificação
+      # daria erro e o UptimeRobot mandaria e-mail de "site fora do ar" todo dia.
+      - name: Acordar o site antes de retomar
+        if: steps.decide.outputs.action == 'start'
+        run: |
+          for attempt in $(seq 1 12); do
+            if curl -fsS -o /dev/null --max-time 30 "$SITE_URL"; then
+              echo "Site respondeu na tentativa $attempt"
+              exit 0
+            fi
+            echo "Tentativa $attempt sem resposta, esperando 10s"
+            sleep 10
+          done
+          echo "O site não respondeu depois de 12 tentativas"
+          exit 1
+
+      - name: Atualizar o monitor no UptimeRobot
+        env:
+          UPTIMEROBOT_API_KEY: ${{ secrets.UPTIMEROBOT_API_KEY }}
+        run: |
+          status=$(curl -sS -o response.json -w "%{http_code}" -X POST \
+            "https://api.uptimerobot.com/v3/monitors/$MONITOR_ID/${{ steps.decide.outputs.action }}" \
+            -H "Authorization: Bearer $UPTIMEROBOT_API_KEY" \
+            -H "Content-Type: application/json")
+          echo "UptimeRobot respondeu HTTP $status"
+          # Sucesso é 2xx (a API devolve 201). Em erro, mostra o corpo para entender o motivo.
+          if [ "$status" -lt 200 ] || [ "$status" -ge 300 ]; then
+            cat response.json
+            exit 1
+          fi
