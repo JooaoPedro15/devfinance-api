@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { mkdtemp, readFile, rm } from "node:fs/promises";
+import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { test } from "node:test";
@@ -133,5 +133,37 @@ test("calculates income, expense, and balance summary", async () => {
             expense: 1520,
             balance: 3480,
         });
+    });
+});
+
+test("filters list and summary by month (YYYY-MM)", async () => {
+    await withStore(async (filePath) => {
+        const base = { updatedAt: "2026-10-01T00:00:00.000Z" };
+        await writeFile(filePath, JSON.stringify([
+            { ...base, id: "a", title: "Bolsa", amount: 2000, type: "income", category: "Trabalho", createdAt: "2026-09-05T12:00:00.000Z" },
+            { ...base, id: "b", title: "Aluguel", amount: 800, type: "expense", category: "Moradia", createdAt: "2026-09-10T12:00:00.000Z" },
+            { ...base, id: "c", title: "Mercado", amount: 300, type: "expense", category: "Alimentação", createdAt: "2026-10-02T12:00:00.000Z" },
+        ]));
+
+        const september = await transactionsService.list(filePath, "2026-09");
+        const octoberSummary = await transactionsService.summary(filePath, "2026-10");
+        const allTime = await transactionsService.summary(filePath);
+
+        assert.deepEqual(september.map((transaction) => transaction.id), ["a", "b"]);
+        assert.deepEqual(octoberSummary, { income: 0, expense: 300, balance: -300 });
+        assert.deepEqual(allTime, { income: 2000, expense: 1100, balance: 900 });
+    });
+});
+
+test("rounds summary totals to cents", async () => {
+    await withStore(async (filePath) => {
+        for (const amount of [850, 341.2, 99.9, 120, 150, 95]) {
+            await transactionsService.create({ title: "Gasto", amount, type: "expense", category: "Teste" }, filePath);
+        }
+
+        const summary = await transactionsService.summary(filePath);
+
+        assert.equal(summary.expense, 1656.1);
+        assert.equal(summary.balance, -1656.1);
     });
 });

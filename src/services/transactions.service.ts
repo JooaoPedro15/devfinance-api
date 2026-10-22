@@ -7,9 +7,10 @@ import type { Summary, Transaction } from "../types";
 export type CreateTransactionData = Omit<Transaction, "id" | "createdAt" | "updatedAt">;
 export type UpdateTransactionData = Partial<CreateTransactionData>;
 
-const defaultStorageFile = path.resolve(process.cwd(), "data", "transactions.json");
+// DATA_FILE permite apontar para outro arquivo (ex.: uma demo) sem mexer no código
+export const defaultStorageFile = path.resolve(process.env.DATA_FILE ?? path.join("data", "transactions.json"));
 
-async function load(storageFile = defaultStorageFile): Promise<Transaction[]> {
+export async function load(storageFile = defaultStorageFile): Promise<Transaction[]> {
     try {
         const content = await readFile(storageFile, "utf-8");
         return JSON.parse(content) as Transaction[];
@@ -24,7 +25,7 @@ async function load(storageFile = defaultStorageFile): Promise<Transaction[]> {
     }
 }
 
-async function save(transactions: Transaction[], storageFile = defaultStorageFile): Promise<void> {
+export async function save(transactions: Transaction[], storageFile = defaultStorageFile): Promise<void> {
     await mkdir(path.dirname(storageFile), { recursive: true });
     await writeFile(storageFile, JSON.stringify(transactions, null, 2));
 }
@@ -48,8 +49,14 @@ export async function create(data: CreateTransactionData, storageFile = defaultS
     return transaction;
 }
 
-export async function list(storageFile = defaultStorageFile): Promise<Transaction[]> {
-    return load(storageFile);
+// month no formato "YYYY-MM". Compara com o início de createdAt (ISO 8601 em UTC).
+function inMonth(transaction: Transaction, month?: string): boolean {
+    return !month || transaction.createdAt.startsWith(month);
+}
+
+export async function list(storageFile = defaultStorageFile, month?: string): Promise<Transaction[]> {
+    const transactions = await load(storageFile);
+    return transactions.filter((transaction) => inMonth(transaction, month));
 }
 
 export async function findById(id: string, storageFile = defaultStorageFile): Promise<Transaction | null> {
@@ -90,8 +97,14 @@ export async function remove(id: string, storageFile = defaultStorageFile): Prom
     return true;
 }
 
-export async function summary(storageFile = defaultStorageFile): Promise<Summary> {
-    const transactions = await load(storageFile);
+// Somar decimais em ponto flutuante deixa resto (850 + 341.2 + ... = 1656.1000000000001).
+// Dinheiro só tem centavos, então arredonda o resultado final para 2 casas.
+function toCents(value: number): number {
+    return Math.round(value * 100) / 100;
+}
+
+export async function summary(storageFile = defaultStorageFile, month?: string): Promise<Summary> {
+    const transactions = await list(storageFile, month);
 
     const income = transactions
         .filter((transaction) => transaction.type === "income")
@@ -102,8 +115,8 @@ export async function summary(storageFile = defaultStorageFile): Promise<Summary
         .reduce((total, transaction) => total + transaction.amount, 0);
 
     return {
-        income,
-        expense,
-        balance: income - expense,
+        income: toCents(income),
+        expense: toCents(expense),
+        balance: toCents(income - expense),
     };
 }

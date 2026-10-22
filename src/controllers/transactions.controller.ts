@@ -12,6 +12,10 @@ const createTransactionSchema = z.object({
 
 const updateTransactionSchema = createTransactionSchema.partial();
 
+const monthQuerySchema = z.object({
+    month: z.string().regex(/^\d{4}-(0[1-9]|1[0-2])$/, "Month must be in YYYY-MM format").optional(),
+});
+
 export async function createTransaction(req: Request, res: Response): Promise<Response> {
     const result = createTransactionSchema.safeParse(req.body);
 
@@ -28,7 +32,16 @@ export async function createTransaction(req: Request, res: Response): Promise<Re
 }
 
 export async function listTransactions(req: Request, res: Response): Promise<Response> {
-    const transactions = await transactionsService.list();
+    const query = monthQuerySchema.safeParse(req.query);
+
+    if (!query.success) {
+        return res.status(400).json({
+            message: "Validation error",
+            errors: query.error.flatten().fieldErrors,
+        });
+    }
+
+    const transactions = await transactionsService.list(undefined, query.data.month);
 
     return res.status(200).json(transactions);
 }
@@ -76,7 +89,16 @@ export async function deleteTransaction(req: Request, res: Response): Promise<Re
 }
 
 export async function getSummary(req: Request, res: Response): Promise<Response> {
-    const summary = await transactionsService.summary();
+    const query = monthQuerySchema.safeParse(req.query);
+
+    if (!query.success) {
+        return res.status(400).json({
+            message: "Validation error",
+            errors: query.error.flatten().fieldErrors,
+        });
+    }
+
+    const summary = await transactionsService.summary(undefined, query.data.month);
 
     return res.status(200).json(summary);
 }
