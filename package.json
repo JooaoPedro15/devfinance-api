@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "main": "dist/index.js",
   "scripts": {
-    "dev": "tsc -p web && nodemon --ignore data/ --ignore public/ --exec ts-node src/index.ts",
-    "dev:web": "tsc -p web --watch",
-    "build": "tsc && tsc -p web",
+    "dev": "nodemon --ignore data/ --ignore web/ --exec ts-node src/index.ts",
+    "dev:web": "vite web",
+    "build": "tsc && tsc -p web && vite build web",
     "start": "node dist/index.js",
     "test": "node --test -r ts-node/register tests/**/*.test.ts"
   },
@@ -15,14 +15,20 @@
   "description": "API REST para controle simples de transacoes financeiras.",
   "dependencies": {
     "express": "^5.2.1",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
     "zod": "^4.3.6"
   },
   "devDependencies": {
     "@types/express": "^5.0.6",
     "@types/node": "^25.5.0",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.2",
     "nodemon": "^3.1.14",
     "ts-node": "^10.9.2",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vite": "^8.3.4"
   },
   "engines": {
     "node": ">=20"

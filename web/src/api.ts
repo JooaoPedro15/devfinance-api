@@ -1,4 +1,4 @@
-import type { FieldErrors, Summary, Transaction, TransactionInput } from "./types.js";
+import type { FieldErrors, Summary, Transaction, TransactionInput } from "./types";
 
 // Erro com os detalhes que a API devolve no 400 do Zod (um array de mensagens por campo).
 export class ApiError extends Error {
@@ -31,9 +31,11 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
     return body as T;
 }
 
+const withMonth = (path: string, month?: string) => (month ? `${path}?month=${month}` : path);
+
 export const api = {
-    list: () => request<Transaction[]>("/transactions"),
-    summary: () => request<Summary>("/summary"),
+    list: (month?: string) => request<Transaction[]>(withMonth("/transactions", month)),
+    summary: (month?: string) => request<Summary>(withMonth("/summary", month)),
     create: (data: TransactionInput) =>
         request<Transaction>("/transactions", { method: "POST", body: JSON.stringify(data) }),
     update: (id: string, data: TransactionInput) =>

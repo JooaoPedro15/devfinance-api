@@ -16,8 +16,8 @@ import { ensureSeedData } from './seed'
 const app = express ()
 app.use (express.json ())
 
-// Front-end (public/index.html) e documentação Swagger (public/docs) servidos como arquivos estáticos
-app.use(express.static(path.resolve(process.cwd(), 'public')))
+// Build do front em React (dist/web), que inclui a documentação Swagger em /docs
+app.use(express.static(path.resolve(process.cwd(), 'dist', 'web')))
 
 app.get ('/api', (req, res) =>{
     res.json({

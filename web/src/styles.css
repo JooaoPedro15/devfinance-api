@@ -144,28 +144,6 @@ a {
     color: var(--expense);
 }
 
-.totals {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem 2.5rem;
-    margin: 0;
-}
-
-.totals div {
-    display: flex;
-    gap: 0.5rem;
-    align-items: baseline;
-}
-
-.totals dt {
-    color: var(--ink-soft);
-}
-
-.totals dd {
-    margin: 0;
-    font-weight: 600;
-}
-
 .income {
     color: var(--income);
 }
@@ -177,15 +155,98 @@ a {
 .about {
     max-width: var(--max);
     margin: 0 auto;
-    padding: 1.25rem var(--gutter) 0;
+    padding: 1.5rem var(--gutter) 0;
+}
+
+/* Linha curta (até ~70 caracteres) sem sair do alinhamento da grade */
+.about p {
+    max-width: 62ch;
+    margin: 0;
+    font-size: var(--step-1);
+    line-height: 1.45;
+}
+
+.about .about-note {
+    margin-top: 0.5rem;
     color: var(--ink-soft);
     font-size: var(--step--1);
 }
 
-/* Linha curta (até ~70 caracteres) sem sair do alinhamento da grade */
-.about span {
-    display: block;
-    max-width: 70ch;
+.layout-note {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding-inline: var(--gutter);
+}
+
+/* ---------- Mês ---------- */
+
+.month {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem 2rem;
+    max-width: var(--max);
+    margin: 2rem auto 0;
+    padding: 0 var(--gutter);
+}
+
+.month-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.month-title {
+    min-width: 11ch;
+    font-size: var(--step-2);
+    text-align: center;
+}
+
+.month-step {
+    display: grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border: 1px solid var(--rule);
+    border-radius: 50%;
+    background: var(--sheet);
+    color: var(--ink);
+    font: inherit;
+    font-size: var(--step-1);
+    line-height: 1;
+    cursor: pointer;
+}
+
+.month-step:hover:not(:disabled) {
+    border-color: var(--ink);
+}
+
+.month-step:disabled {
+    opacity: 0.35;
+    cursor: default;
+}
+
+.month-totals {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 2rem;
+    margin: 0;
+}
+
+.month-totals div {
+    display: flex;
+    gap: 0.5rem;
+    align-items: baseline;
+}
+
+.month-totals dt {
+    color: var(--ink-soft);
+}
+
+.month-totals dd {
+    margin: 0;
+    font-weight: 600;
 }
 
 /* ---------- Layout principal ---------- */
@@ -198,6 +259,65 @@ a {
     max-width: var(--max);
     margin: 0 auto;
     padding: 2rem var(--gutter) 3rem;
+}
+
+.main-column {
+    display: grid;
+    gap: 2.5rem;
+    min-width: 0;
+}
+
+/* ---------- Gráfico por categoria ---------- */
+
+.chart h2 {
+    font-size: var(--step-1);
+}
+
+.chart-lead {
+    margin: 0.25rem 0 1rem;
+    color: var(--ink-soft);
+}
+
+.chart-bars {
+    display: grid;
+    gap: 0.6rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.chart-bars li {
+    display: grid;
+    grid-template-columns: 8rem minmax(0, 1fr) 9.5rem;
+    gap: 1rem;
+    align-items: center;
+}
+
+.chart-label {
+    font-weight: 500;
+    overflow-wrap: anywhere;
+}
+
+.chart-bar {
+    width: 100%;
+    height: 0.9rem;
+    fill: var(--ink);
+}
+
+.chart-bars li:first-child .chart-bar {
+    fill: var(--expense);
+}
+
+.chart-value {
+    text-align: right;
+    white-space: nowrap;
+}
+
+.chart-value small {
+    display: inline-block;
+    min-width: 3ch;
+    color: var(--ink-soft);
+    font-size: var(--step--1);
 }
 
 /* ---------- Extrato ---------- */
@@ -515,9 +635,26 @@ a {
 .foot {
     max-width: var(--max);
     margin: 0 auto;
-    padding: 0 var(--gutter) 2.5rem;
+    padding: 2rem var(--gutter) 3rem;
+    border-top: 1px solid var(--rule);
+}
+
+.foot h2 {
+    font-size: var(--step-1);
+}
+
+.foot p {
+    max-width: 62ch;
+    margin: 0.5rem 0 0;
     color: var(--ink-soft);
-    font-size: var(--step--1);
+}
+
+.foot .foot-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    margin-top: 1rem;
+    font-weight: 500;
 }
 
 /* ---------- Telas menores ---------- */
@@ -533,6 +670,20 @@ a {
 }
 
 @media (max-width: 560px) {
+    .about p {
+        font-size: var(--step-0);
+    }
+
+    .chart-bars li {
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 0.25rem 1rem;
+    }
+
+    .chart-bar {
+        grid-column: 1 / -1;
+        grid-row: 2;
+    }
+
     .columns {
         display: none;
     }

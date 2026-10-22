@@ -1,0 +1,352 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "DevFinance API",
+    "version": "1.0.0",
+    "description": "API REST para controle de receitas e despesas. Use \"Try it out\" em qualquer rota para fazer uma requisição real."
+  },
+  "servers": [
+    {
+      "url": "/"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Transações",
+      "description": "CRUD de receitas e despesas"
+    },
+    {
+      "name": "Resumo",
+      "description": "Totais consolidados"
+    }
+  ],
+  "paths": {
+    "/transactions": {
+      "get": {
+        "tags": [
+          "Transações"
+        ],
+        "summary": "Lista as transações (opcionalmente de um mês)",
+        "responses": {
+          "200": {
+            "description": "Lista de transações",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Transaction"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ValidationError"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Month"
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Transações"
+        ],
+        "summary": "Cria uma transação",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TransactionInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Transação criada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Transaction"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ValidationError"
+          }
+        }
+      }
+    },
+    "/transactions/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "example": "6f1c2a10-3d4e-4b5f-9a01-000000000001"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Transações"
+        ],
+        "summary": "Busca uma transação pelo id",
+        "responses": {
+          "200": {
+            "description": "Transação encontrada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Transaction"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Transações"
+        ],
+        "summary": "Atualiza campos de uma transação",
+        "description": "Aceita atualização parcial: só os campos enviados são alterados.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TransactionUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Transação atualizada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Transaction"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Transações"
+        ],
+        "summary": "Remove uma transação",
+        "responses": {
+          "204": {
+            "description": "Transação removida"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/summary": {
+      "get": {
+        "tags": [
+          "Resumo"
+        ],
+        "summary": "Total de receitas, despesas e saldo (opcionalmente de um mês)",
+        "responses": {
+          "200": {
+            "description": "Resumo",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Summary"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ValidationError"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Month"
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "TransactionInput": {
+        "type": "object",
+        "required": [
+          "title",
+          "amount",
+          "type",
+          "category"
+        ],
+        "properties": {
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "example": "Conta de luz"
+          },
+          "amount": {
+            "type": "number",
+            "exclusiveMinimum": true,
+            "minimum": 0,
+            "example": 89.9
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "income",
+              "expense"
+            ],
+            "example": "expense"
+          },
+          "category": {
+            "type": "string",
+            "minLength": 1,
+            "example": "Moradia"
+          }
+        }
+      },
+      "TransactionUpdate": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "amount": {
+            "type": "number",
+            "exclusiveMinimum": true,
+            "minimum": 0
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "income",
+              "expense"
+            ]
+          },
+          "category": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "example": {
+          "amount": 95.5
+        }
+      },
+      "Transaction": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/TransactionInput"
+          },
+          {
+            "type": "object",
+            "required": [
+              "id",
+              "createdAt",
+              "updatedAt"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "updatedAt": {
+                "type": "string",
+                "format": "date-time"
+              }
+            }
+          }
+        ]
+      },
+      "Summary": {
+        "type": "object",
+        "properties": {
+          "income": {
+            "type": "number",
+            "example": 2800
+          },
+          "expense": {
+            "type": "number",
+            "example": 1595.8
+          },
+          "balance": {
+            "type": "number",
+            "example": 1204.2
+          }
+        }
+      }
+    },
+    "responses": {
+      "ValidationError": {
+        "description": "Corpo inválido (validação do Zod)",
+        "content": {
+          "application/json": {
+            "example": {
+              "message": "Validation error",
+              "errors": {
+                "amount": [
+                  "Amount must be greater than zero"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "Id inexistente",
+        "content": {
+          "application/json": {
+            "example": {
+              "message": "Transaction not found"
+            }
+          }
+        }
+      }
+    },
+    "parameters": {
+      "Month": {
+        "name": "month",
+        "in": "query",
+        "required": false,
+        "description": "Filtra pelo mês de criação, no formato YYYY-MM. Sem o parâmetro, considera tudo.",
+        "schema": {
+          "type": "string",
+          "pattern": "^\\d{4}-(0[1-9]|1[0-2])$"
+        },
+        "example": "2026-10"
+      }
+    }
+  }
+}
