@@ -5,11 +5,155 @@
     "amount": 2200,
     "type": "income",
     "category": "Trabalho",
+    "createdAt": "2026-08-01T12:00:00.000Z",
+    "updatedAt": "2026-08-01T12:00:00.000Z"
+  },
+  {
+    "id": "6f1c2a10-3d4e-4b5f-9a01-000000000002",
+    "title": "Aluguel do quarto",
+    "amount": 850,
+    "type": "expense",
+    "category": "Moradia",
+    "createdAt": "2026-08-02T14:00:00.000Z",
+    "updatedAt": "2026-08-02T14:00:00.000Z"
+  },
+  {
+    "id": "6f1c2a10-3d4e-4b5f-9a01-000000000003",
+    "title": "Supermercado",
+    "amount": 287.6,
+    "type": "expense",
+    "category": "Alimentação",
+    "createdAt": "2026-08-03T18:30:00.000Z",
+    "updatedAt": "2026-08-03T18:30:00.000Z"
+  },
+  {
+    "id": "6f1c2a10-3d4e-4b5f-9a01-000000000004",
+    "title": "Internet",
+    "amount": 99.9,
+    "type": "expense",
+    "category": "Moradia",
+    "createdAt": "2026-08-05T09:00:00.000Z",
+    "updatedAt": "2026-08-05T09:00:00.000Z"
+  },
+  {
+    "id": "6f1c2a10-3d4e-4b5f-9a01-000000000005",
+    "title": "Recarga do cartão de ônibus",
+    "amount": 120,
+    "type": "expense",
+    "category": "Transporte",
+    "createdAt": "2026-08-09T07:30:00.000Z",
+    "updatedAt": "2026-08-09T07:30:00.000Z"
+  },
+  {
+    "id": "6f1c2a10-3d4e-4b5f-9a01-000000000006",
+    "title": "Show no Mineirão",
+    "amount": 180,
+    "type": "expense",
+    "category": "Lazer",
+    "createdAt": "2026-08-14T21:00:00.000Z",
+    "updatedAt": "2026-08-14T21:00:00.000Z"
+  },
+  {
+    "id": "6f1c2a10-3d4e-4b5f-9a01-000000000007",
+    "title": "Supermercado",
+    "amount": 198.3,
+    "type": "expense",
+    "category": "Alimentação",
+    "createdAt": "2026-08-22T17:45:00.000Z",
+    "updatedAt": "2026-08-22T17:45:00.000Z"
+  },
+  {
+    "id": "6f1c2a10-3d4e-4b5f-9a01-000000000008",
+    "title": "Curso de React",
+    "amount": 59.9,
+    "type": "expense",
+    "category": "Estudos",
+    "createdAt": "2026-08-28T15:10:00.000Z",
+    "updatedAt": "2026-08-28T15:10:00.000Z"
+  },
+  {
+    "id": "6f1c2a10-3d4e-4b5f-9a01-000000000009",
+    "title": "Bolsa de estágio",
+    "amount": 2200,
+    "type": "income",
+    "category": "Trabalho",
+    "createdAt": "2026-09-01T12:00:00.000Z",
+    "updatedAt": "2026-09-01T12:00:00.000Z"
+  },
+  {
+    "id": "6f1c2a10-3d4e-4b5f-9a01-000000000010",
+    "title": "Aluguel do quarto",
+    "amount": 850,
+    "type": "expense",
+    "category": "Moradia",
+    "createdAt": "2026-09-02T14:00:00.000Z",
+    "updatedAt": "2026-09-02T14:00:00.000Z"
+  },
+  {
+    "id": "6f1c2a10-3d4e-4b5f-9a01-000000000011",
+    "title": "Supermercado",
+    "amount": 341.2,
+    "type": "expense",
+    "category": "Alimentação",
+    "createdAt": "2026-09-04T19:20:00.000Z",
+    "updatedAt": "2026-09-04T19:20:00.000Z"
+  },
+  {
+    "id": "6f1c2a10-3d4e-4b5f-9a01-000000000012",
+    "title": "Internet",
+    "amount": 99.9,
+    "type": "expense",
+    "category": "Moradia",
+    "createdAt": "2026-09-05T09:00:00.000Z",
+    "updatedAt": "2026-09-05T09:00:00.000Z"
+  },
+  {
+    "id": "6f1c2a10-3d4e-4b5f-9a01-000000000013",
+    "title": "Recarga do cartão de ônibus",
+    "amount": 120,
+    "type": "expense",
+    "category": "Transporte",
+    "createdAt": "2026-09-08T07:30:00.000Z",
+    "updatedAt": "2026-09-08T07:30:00.000Z"
+  },
+  {
+    "id": "6f1c2a10-3d4e-4b5f-9a01-000000000014",
+    "title": "Site para a padaria do bairro",
+    "amount": 450,
+    "type": "income",
+    "category": "Freela",
+    "createdAt": "2026-09-15T20:00:00.000Z",
+    "updatedAt": "2026-09-15T20:00:00.000Z"
+  },
+  {
+    "id": "6f1c2a10-3d4e-4b5f-9a01-000000000015",
+    "title": "Consulta no dentista",
+    "amount": 150,
+    "type": "expense",
+    "category": "Saúde",
+    "createdAt": "2026-09-19T13:00:00.000Z",
+    "updatedAt": "2026-09-19T13:00:00.000Z"
+  },
+  {
+    "id": "6f1c2a10-3d4e-4b5f-9a01-000000000016",
+    "title": "Aniversário de um amigo",
+    "amount": 95,
+    "type": "expense",
+    "category": "Lazer",
+    "createdAt": "2026-09-27T22:10:00.000Z",
+    "updatedAt": "2026-09-27T22:10:00.000Z"
+  },
+  {
+    "id": "6f1c2a10-3d4e-4b5f-9a01-000000000017",
+    "title": "Bolsa de estágio",
+    "amount": 2200,
+    "type": "income",
+    "category": "Trabalho",
     "createdAt": "2026-10-01T12:00:00.000Z",
     "updatedAt": "2026-10-01T12:00:00.000Z"
   },
   {
-    "id": "6f1c2a10-3d4e-4b5f-9a01-000000000002",
+    "id": "6f1c2a10-3d4e-4b5f-9a01-000000000018",
     "title": "Aluguel do quarto",
     "amount": 850,
     "type": "expense",
@@ -18,7 +162,7 @@
     "updatedAt": "2026-10-02T14:30:00.000Z"
   },
   {
-    "id": "6f1c2a10-3d4e-4b5f-9a01-000000000003",
+    "id": "6f1c2a10-3d4e-4b5f-9a01-000000000019",
     "title": "Supermercado",
     "amount": 312.4,
     "type": "expense",
@@ -27,7 +171,7 @@
     "updatedAt": "2026-10-04T18:10:00.000Z"
   },
   {
-    "id": "6f1c2a10-3d4e-4b5f-9a01-000000000004",
+    "id": "6f1c2a10-3d4e-4b5f-9a01-000000000020",
     "title": "Internet",
     "amount": 99.9,
     "type": "expense",
@@ -36,7 +180,7 @@
     "updatedAt": "2026-10-05T09:00:00.000Z"
   },
   {
-    "id": "6f1c2a10-3d4e-4b5f-9a01-000000000005",
+    "id": "6f1c2a10-3d4e-4b5f-9a01-000000000021",
     "title": "Landing page para cliente",
     "amount": 600,
     "type": "income",
@@ -45,7 +189,7 @@
     "updatedAt": "2026-10-08T20:15:00.000Z"
   },
   {
-    "id": "6f1c2a10-3d4e-4b5f-9a01-000000000006",
+    "id": "6f1c2a10-3d4e-4b5f-9a01-000000000022",
     "title": "Recarga do cartão de ônibus",
     "amount": 120,
     "type": "expense",
@@ -54,7 +198,7 @@
     "updatedAt": "2026-10-09T07:40:00.000Z"
   },
   {
-    "id": "6f1c2a10-3d4e-4b5f-9a01-000000000007",
+    "id": "6f1c2a10-3d4e-4b5f-9a01-000000000023",
     "title": "Livro de algoritmos",
     "amount": 145,
     "type": "expense",
@@ -63,7 +207,7 @@
     "updatedAt": "2026-10-12T16:20:00.000Z"
   },
   {
-    "id": "6f1c2a10-3d4e-4b5f-9a01-000000000008",
+    "id": "6f1c2a10-3d4e-4b5f-9a01-000000000024",
     "title": "Pizza com a turma",
     "amount": 68.5,
     "type": "expense",
