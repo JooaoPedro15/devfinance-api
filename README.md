@@ -118,7 +118,7 @@ curl http://localhost:3000/summary
 
 ## Como rodar
 
-Requisito: Node.js 20 ou mais recente.
+Requisito: Node.js 20.19+ na linha 20, ou 22.12+ nas linhas mais recentes, conforme o [requisito do Vite](https://vite.dev/guide/#scaffolding-your-first-vite-project).
 
 ```bash
 npm install
